@@ -223,7 +223,7 @@ class AutoComplete {
     if (items) {
       this.items = items;
       this.selectedIndex = -1;
-      this.itemsList = this._getRenderList(this.items, this.value);
+      this.itemsList = this._getRenderList(this.items, escape(this.value));
       this.isOpen = true;
       this.element.classList.add(this.autoCompletingClassName);
     } else {
@@ -286,7 +286,7 @@ class AutoComplete {
    * @returns {string}
    */
   _getRenderList(items, query) {
-    const listItems = items.map((item, index) => this._getRenderListItem(item.value, item.url, index, query));
+    const listItems = items.map((item, index) => this._getRenderListItem(escape(item.value), item.url, index, query));
     return `
             <ul class="${this.baseClassName}__list">
                 ${listItems.join('\n')}
@@ -318,7 +318,7 @@ class AutoComplete {
       }, 0);
     }
     const content = highlighted.replace(/\t/g, '').replace(/\n/g, '');
-    return `<li class="${this.baseClassName}__item${activeClass}" data-autocomplete-value="${item}" data-autocomplete-url="${url}">${content}</li>`
+    return `<li class="${this.baseClassName}__item${activeClass}" data-autocomplete-value="${item}" data-autocomplete-url="${url}">${unescape(content)}</li>`
   }
 
   /**
